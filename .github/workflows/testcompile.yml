@@ -34,5 +34,5 @@ jobs:
           sketch-names-find-start: SOURCES/WEBAPP/ESP32/aurora/
           arduino-board-fqbn: esp32:esp32:esp32
           platform-url: https://dl.espressif.com/dl/package_esp32_index.json
-          required-libraries: ArduinoJson
+          required-libraries: ArduinoJson,U8g2,IRremote
 

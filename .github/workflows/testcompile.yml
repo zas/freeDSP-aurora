@@ -18,18 +18,20 @@ jobs:
         with:
           repository: me-no-dev/ESPAsyncWebServer
           ref: master
+          path: CustomLibrary_ESPAsyncWebServer
 
       - name: Checkout AsyncTCP library
         uses: actions/checkout@v2
         with:
           repository: me-no-dev/AsyncTCP
           ref: master
+          path: CustomLibrary_AsyncTCP
 
       - name: Compile all examples
         uses: ArminJo/arduino-test-compile@v2.5.0
         with:
-          #sketch-names: "*.ino,*.cpp"
-          sketch-names-find-start: /github/workspace/SOURCES/ESP32/aurora/
+          sketch-names: "*.ino,*.cpp"
+          sketch-names-find-start: SOURCES/ESP32/aurora/
           arduino-board-fqbn: esp32:esp32:esp32
           platform-url: https://dl.espressif.com/dl/package_esp32_index.json
           required-libraries: ArduinoJson

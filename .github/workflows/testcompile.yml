@@ -26,7 +26,7 @@ jobs:
           ref: master
 
       - name: Compile all examples
-        uses: ArminJo/arduino-test-compile@V2
+        uses: ArminJo/arduino-test-compile@v2.5.0
         with:
           sketch-names: "*.ino,*.cpp"
           sketch-names-find-start: SOURCES/ESP32/aurora/

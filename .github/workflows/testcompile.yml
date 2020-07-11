@@ -1,0 +1,35 @@
+# This is the name of the workflow, visible on GitHub UI.
+name: TestCompile
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+jobs:
+  build:
+    name: Test compiling aurora for ESP32
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Checkout ESPAsyncWebServer library
+        uses: actions/checkout@v2
+        with:
+          repository: me-no-dev/ESPAsyncWebServer
+          ref: master
+
+      - name: Checkout AsyncTCP library
+        uses: actions/checkout@v2
+        with:
+          repository: me-no-dev/AsyncTCP
+          ref: master
+
+      - name: Compile all examples
+        uses: ArminJo/arduino-test-compile@master
+        with:
+          sketch-names: aurora.ino
+          arduino-board-fqbn: esp32:esp32:esp32
+          platform-url: https://dl.espressif.com/dl/package_esp32_index.json
+          required-libraries: ArduinoJson
+        
+ 

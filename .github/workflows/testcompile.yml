@@ -1,5 +1,6 @@
 # This is the name of the workflow, visible on GitHub UI.
 name: TestCompile
+on:
   push:
     branches: [ master, develop ]
   pull_request:

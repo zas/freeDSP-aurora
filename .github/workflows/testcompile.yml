@@ -31,7 +31,7 @@ jobs:
         uses: ArminJo/arduino-test-compile@v2.5.0
         with:
           sketch-names: aurora.ino
-          sketch-names-find-start: SOURCES/ESP32/aurora/
+          sketch-names-find-start: SOURCES/WEBAPP/ESP32/aurora/
           arduino-board-fqbn: esp32:esp32:esp32
           platform-url: https://dl.espressif.com/dl/package_esp32_index.json
           required-libraries: ArduinoJson

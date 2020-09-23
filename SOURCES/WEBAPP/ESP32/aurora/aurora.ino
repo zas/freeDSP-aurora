@@ -3198,23 +3198,14 @@ void handlePostPresetJson( AsyncWebServerRequest* request, uint8_t* data )
     return;
   }
 
-  softMuteDAC();
 
   JsonObject root = jsonDoc.as<JsonObject>();
-  Serial.println( root["pre"].as<String>() );
-
   currentPreset = root["pre"].as<uint8_t>();
 
-  initUserParams();
-  uploadUserParams();
-
-  updateAddOn();
-
-  request->send(200, "text/plain", "");
-
+  updatePreset();
   updateUI();
 
-  softUnmuteDAC();
+  request->send(200, "text/plain", "");
 }
 
 //==============================================================================
@@ -3568,6 +3559,20 @@ void handlePostSpdifOutJson( AsyncWebServerRequest* request, uint8_t* data )
   setSpdifOutputRouting();
 
   request->send(200, "text/plain", "");
+}
+
+//==============================================================================
+/*! Update current preset
+ *
+ */
+void updatePreset( void )
+{
+  Serial.println("Switching to preset " + currentPreset);
+  softMuteDAC();
+  initUserParams();
+  uploadUserParams();
+  updateAddOn();
+  softUnmuteDAC();
 }
 
 //==============================================================================
@@ -4613,12 +4618,7 @@ void loop()
     else
       currentPreset--;
 
-    softMuteDAC();
-    initUserParams();
-    uploadUserParams();
-    updateAddOn();
-    softUnmuteDAC();
-
+    updatePreset();
     needUpdateUI = true;
     break;
   case UI_CMD_PRESET_NEXT:
@@ -4628,12 +4628,7 @@ void loop()
     if( currentPreset >= MAX_NUM_PRESETS )
       currentPreset = 0;
 
-    softMuteDAC();
-    initUserParams();
-    uploadUserParams();
-    updateAddOn();
-    softUnmuteDAC();
-
+    updatePreset();
     needUpdateUI = true;
     break;
   default:

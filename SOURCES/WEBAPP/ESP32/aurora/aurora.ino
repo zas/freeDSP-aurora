@@ -853,7 +853,7 @@ void uploadUserParams( void )
         tInput paramInputTemp;
         size_t len = fileUserParams.read( (uint8_t*)&(paramInputTemp), sizeof(tInput) );
         if( len != sizeof(tInput) )
-          Serial.println( "[ERROR] Reading inputs from " + presetUsrparamFile[currentPreset] );
+          Serial.println( "[ERROR] Reading inputs from " + fileName );
         else
           paramInputs[ii].sel = paramInputTemp.sel;     
         totalSize += len;
@@ -866,7 +866,7 @@ void uploadUserParams( void )
         size_t len = fileUserParams.read( (uint8_t*)&(paramFir[ii]), sizeof(tFir) );
         if( len != sizeof(tFir) )
         {
-          Serial.println( "[ERROR] Reading FIR from " + presetUsrparamFile[currentPreset] );
+          Serial.println( "[ERROR] Reading FIR from " + fileName );
           for( int kk = 0; kk < MAX_LENGTH_IR; kk++ )
             paramFir[ii].ir[kk] = 0.0;
           paramFir[ii].ir[0] = 1.0;
@@ -881,7 +881,7 @@ void uploadUserParams( void )
         tHPLP paramHpTemp;
         size_t len = fileUserParams.read( (uint8_t*)&(paramHpTemp), sizeof(tHPLP) );
         if( len != sizeof(tHPLP) )
-          Serial.println( "[ERROR] Reading HPs from " + presetUsrparamFile[currentPreset] );
+          Serial.println( "[ERROR] Reading HPs from " + fileName );
         else
         {
           paramHP[ii].fc = paramHpTemp.fc;
@@ -896,7 +896,7 @@ void uploadUserParams( void )
         tShelving paramLShelvTemp;
         size_t len = fileUserParams.read( (uint8_t*)&(paramLShelvTemp), sizeof(tShelving) );
         if( len != sizeof(tShelving) )
-          Serial.println( "[ERROR] Reading LShelvs from " + presetUsrparamFile[currentPreset] );
+          Serial.println( "[ERROR] Reading LShelvs from " + fileName );
         else
         {
           paramLshelv[ii].gain = paramLShelvTemp.gain;
@@ -912,7 +912,7 @@ void uploadUserParams( void )
         tPeq paramPeqTemp;
         size_t len = fileUserParams.read( (uint8_t*)&(paramPeqTemp), sizeof(tPeq) );
         if( len != sizeof(tPeq) )
-          Serial.println( "[ERROR] Reading PEQs from " + presetUsrparamFile[currentPreset] );
+          Serial.println( "[ERROR] Reading PEQs from " + fileName );
         else
         {
           paramPeq[ii].gain = paramPeqTemp.gain;
@@ -928,7 +928,7 @@ void uploadUserParams( void )
         tShelving paramHShelvTemp;
         size_t len = fileUserParams.read( (uint8_t*)&(paramHShelvTemp), sizeof(tShelving) );
         if( len != sizeof(tShelving) )
-          Serial.println( "[ERROR] Reading HShelvs from " + presetUsrparamFile[currentPreset] );
+          Serial.println( "[ERROR] Reading HShelvs from " + fileName );
         else
         {
           paramHshelv[ii].gain = paramHShelvTemp.gain;
@@ -944,7 +944,7 @@ void uploadUserParams( void )
         tCrossover paramCrossoverTemp;
         size_t len = fileUserParams.read( (uint8_t*)&(paramCrossoverTemp), sizeof(tCrossover) );
         if( len != sizeof(tCrossover) )
-          Serial.println( "[ERROR] Reading XO from " + presetUsrparamFile[currentPreset] );
+          Serial.println( "[ERROR] Reading XO from " + fileName );
         else
         {
           paramCrossover[ii].hp_fc = paramCrossoverTemp.hp_fc;
@@ -962,7 +962,7 @@ void uploadUserParams( void )
         tHPLP paramLpTemp;
         size_t len = fileUserParams.read( (uint8_t*)&(paramLpTemp), sizeof(tHPLP) );
         if( len != sizeof(tHPLP) )
-          Serial.println( "[ERROR] Reading LPs from " + presetUsrparamFile[currentPreset] );
+          Serial.println( "[ERROR] Reading LPs from " + fileName );
         else
         {
           paramLP[ii].fc = paramLpTemp.fc;
@@ -977,7 +977,7 @@ void uploadUserParams( void )
         tPhase paramPhaseTemp;
         size_t len = fileUserParams.read( (uint8_t*)&(paramPhaseTemp), sizeof(tPhase) );
         if( len != sizeof(tPhase) )
-          Serial.println( "[ERROR] Reading Phases from " + presetUsrparamFile[currentPreset] );
+          Serial.println( "[ERROR] Reading Phases from " + fileName );
         else
         {
           paramPhase[ii].fc = paramPhaseTemp.fc;
@@ -992,7 +992,7 @@ void uploadUserParams( void )
         tDelay paramDelayTemp;
         size_t len = fileUserParams.read( (uint8_t*)&(paramDelayTemp), sizeof(tDelay) );
         if( len != sizeof(tDelay) )
-          Serial.println( "[ERROR] Reading Delays from " + presetUsrparamFile[currentPreset] );
+          Serial.println( "[ERROR] Reading Delays from " + fileName );
         else
         {
           paramDelay[ii].delay = paramDelayTemp.delay;
@@ -1006,7 +1006,7 @@ void uploadUserParams( void )
         tGain paramGainTemp;
         size_t len = fileUserParams.read( (uint8_t*)&(paramGainTemp), sizeof(tGain) );
         if( len != sizeof(tGain) )
-          Serial.println( "[ERROR] Reading Gains from " + presetUsrparamFile[currentPreset] );
+          Serial.println( "[ERROR] Reading Gains from " + fileName );
         else
         {
           paramGain[ii].gain = paramGainTemp.gain;
@@ -1018,7 +1018,7 @@ void uploadUserParams( void )
       tMasterVolume masterVolumeTemp;
       size_t len = fileUserParams.read( (uint8_t*)&masterVolumeTemp, sizeof(tMasterVolume) );
       if( len != sizeof(tMasterVolume) )
-        Serial.println( "[ERROR] Reading masterVolume from " + presetUsrparamFile[currentPreset] );
+        Serial.println( "[ERROR] Reading masterVolume from " + fileName );
       else
         masterVolume.val = masterVolumeTemp.val;
       totalSize += len;
@@ -1026,7 +1026,7 @@ void uploadUserParams( void )
       tSpdifOutput spdifOutputTemp;
       len = fileUserParams.read( (uint8_t*)&spdifOutputTemp, sizeof(tSpdifOutput) );
       if( len != sizeof(tSpdifOutput) )
-        Serial.println( "[ERROR] Reading spdifOutput from " + presetUsrparamFile[currentPreset] );
+        Serial.println( "[ERROR] Reading spdifOutput from " + fileName );
       else
       {
         spdifOutput.selectionLeft = spdifOutputTemp.selectionLeft;
@@ -3289,7 +3289,7 @@ void handlePostStore( AsyncWebServerRequest* request, uint8_t* data )
   {
     size_t len = fileUserParams.write( (uint8_t*)&(paramInputs[ii]), sizeof(tInput) );
     if( len != sizeof(tInput) )
-      Serial.println( "[ERROR] Writing inputs to " + presetUsrparamFile[currentPreset] );
+      Serial.println( "[ERROR] Writing inputs to " + fileName );
     totalSize += len;
   }
 
@@ -3297,7 +3297,7 @@ void handlePostStore( AsyncWebServerRequest* request, uint8_t* data )
   {
     size_t len = fileUserParams.write( (uint8_t*)&(paramFir[ii]), sizeof(tFir) );
     if( len != sizeof(tFir) )
-      Serial.println( "[ERROR] Writing FIRs to " + presetUsrparamFile[currentPreset] );
+      Serial.println( "[ERROR] Writing FIRs to " + fileName );
     totalSize += len;
   }
 
@@ -3305,7 +3305,7 @@ void handlePostStore( AsyncWebServerRequest* request, uint8_t* data )
   {
     size_t len = fileUserParams.write( (uint8_t*)&(paramHP[ii]), sizeof(tHPLP) );
     if( len != sizeof(tHPLP) )
-      Serial.println( "[ERROR] Writing HPs to " + presetUsrparamFile[currentPreset] );
+      Serial.println( "[ERROR] Writing HPs to " + fileName );
     totalSize += len;
   }
 
@@ -3313,7 +3313,7 @@ void handlePostStore( AsyncWebServerRequest* request, uint8_t* data )
   {
     size_t len = fileUserParams.write( (uint8_t*)&(paramLshelv[ii]), sizeof(tShelving) );
     if( len != sizeof(tShelving) )
-      Serial.println( "[ERROR] Writing LShelvs to " + presetUsrparamFile[currentPreset] );
+      Serial.println( "[ERROR] Writing LShelvs to " + fileName );
     totalSize += len;
   }
 
@@ -3321,7 +3321,7 @@ void handlePostStore( AsyncWebServerRequest* request, uint8_t* data )
   {
     size_t len = fileUserParams.write( (uint8_t*)&(paramPeq[ii]), sizeof(tPeq) );
     if( len != sizeof(tPeq) )
-      Serial.println( "[ERROR] Writing PEQs to " + presetUsrparamFile[currentPreset] );
+      Serial.println( "[ERROR] Writing PEQs to " + fileName );
     totalSize += len;
   }
 
@@ -3329,7 +3329,7 @@ void handlePostStore( AsyncWebServerRequest* request, uint8_t* data )
   {
     size_t len = fileUserParams.write( (uint8_t*)&(paramHshelv[ii]), sizeof(tShelving) );
     if( len != sizeof(tShelving) )
-      Serial.println( "[ERROR] Writing HShelvs to " + presetUsrparamFile[currentPreset] );
+      Serial.println( "[ERROR] Writing HShelvs to " + fileName );
     totalSize += len;
   }
 
@@ -3337,7 +3337,7 @@ void handlePostStore( AsyncWebServerRequest* request, uint8_t* data )
   {
     size_t len = fileUserParams.write( (uint8_t*)&(paramCrossover[ii]), sizeof(tCrossover) );
     if( len != sizeof(tCrossover) )
-      Serial.println( "[ERROR] Writing XOs to " + presetUsrparamFile[currentPreset] );
+      Serial.println( "[ERROR] Writing XOs to " + fileName );
     totalSize += len;
   }
 
@@ -3345,7 +3345,7 @@ void handlePostStore( AsyncWebServerRequest* request, uint8_t* data )
   {
     size_t len = fileUserParams.write( (uint8_t*)&(paramLP[ii]), sizeof(tHPLP) );
     if( len != sizeof(tHPLP) )
-      Serial.println( "[ERROR] Writing LPs to " + presetUsrparamFile[currentPreset] );
+      Serial.println( "[ERROR] Writing LPs to " + fileName );
     totalSize += len;
   }
 
@@ -3353,7 +3353,7 @@ void handlePostStore( AsyncWebServerRequest* request, uint8_t* data )
   {
     size_t len = fileUserParams.write( (uint8_t*)&(paramPhase[ii]), sizeof(tPhase) );
     if( len != sizeof(tPhase) )
-      Serial.println( "[ERROR] Writing Phases to " + presetUsrparamFile[currentPreset] );
+      Serial.println( "[ERROR] Writing Phases to " + fileName );
     totalSize += len;
   }
 
@@ -3361,7 +3361,7 @@ void handlePostStore( AsyncWebServerRequest* request, uint8_t* data )
   {
     size_t len = fileUserParams.write( (uint8_t*)&(paramDelay[ii]), sizeof(tDelay) );
     if( len != sizeof(tDelay) )
-      Serial.println( "[ERROR] Writing Delays to " + presetUsrparamFile[currentPreset] );
+      Serial.println( "[ERROR] Writing Delays to " + fileName );
     totalSize += len;
   }
 
@@ -3369,18 +3369,18 @@ void handlePostStore( AsyncWebServerRequest* request, uint8_t* data )
   {
     size_t len = fileUserParams.write( (uint8_t*)&(paramGain[ii]), sizeof(tGain) );
     if( len != sizeof(tGain) )
-      Serial.println( "[ERROR] Writing Gains to " + presetUsrparamFile[currentPreset] );
+      Serial.println( "[ERROR] Writing Gains to " + fileName );
     totalSize += len;
   }
 
   size_t len = fileUserParams.write( (uint8_t*)&masterVolume, sizeof(tMasterVolume) );
   if( len != sizeof(tMasterVolume) )
-    Serial.println( "[ERROR] Writing masterVolume to " + presetUsrparamFile[currentPreset] );
+    Serial.println( "[ERROR] Writing masterVolume to " + fileName );
   totalSize += len;
 
   len = fileUserParams.write( (uint8_t*)&spdifOutput, sizeof(tSpdifOutput) );
   if( len != sizeof(tSpdifOutput) )
-    Serial.println( "[ERROR] Writing SPDIF out to " + presetUsrparamFile[currentPreset] );
+    Serial.println( "[ERROR] Writing SPDIF out to " + fileName );
   totalSize += len;
 
   fileUserParams.flush();

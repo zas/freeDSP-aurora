@@ -4505,12 +4505,18 @@ void setup()
 /*! Arduino Main Loop
  *
  */
+#define UI_CMD_NONE 0
+#define UI_CMD_VOL_UP 1
+#define UI_CMD_VOL_DOWN 2
+#define UI_CMD_PRESET_PREV 3
+#define UI_CMD_PRESET_NEXT 4
+
 void loop()
 {
   TIMERG0.wdt_wprotect=TIMG_WDT_WKEY_VALUE;
   TIMERG0.wdt_feed=1;
   TIMERG0.wdt_wprotect=0;
-
+  uint8_t ui_cmd = UI_CMD_NONE;
 
   #if HAVE_ROTARYENCODER
   if( rotaryEncoder.getSwitchValue() != lastREsw )
@@ -4533,59 +4539,26 @@ void loop()
   {
     if( editMode == 0 )
     {
-      masterVolume.val += 0.5f;
-      if( masterVolume.val > 0.f )
-        masterVolume.val = 0.f;
-      setMasterVolume();
+      ui_cmd = UI_CMD_VOL_UP;
       lastREval = rotaryEncoder.getRotationValue();
-      needUpdateUI = true;
     }
     else if( editMode == 1 )
     {
-      myDisplay.drawSwitchingPreset();
-
-      currentPreset++;
-      if( currentPreset >= MAX_NUM_PRESETS )
-        currentPreset = 0;
-
-      softMuteDAC();
-      initUserParams();
-      uploadUserParams();
-      updateAddOn();
-      softUnmuteDAC();
-
+      ui_cmd = UI_CMD_PRESET_NEXT;
       lastREval = rotaryEncoder.getRotationValue();
-      needUpdateUI = true;
     }
   }
   else if( rotaryEncoder.getRotationValue() < lastREval - 1 )
   {
     if( editMode == 0 )
     {
-      masterVolume.val -= 0.5f;
-      if( masterVolume.val <= -80.f )
-        masterVolume.val = -80.f;
-      setMasterVolume();
+      ui_cmd = UI_CMD_VOL_DOWN;
       lastREval = rotaryEncoder.getRotationValue();
-      needUpdateUI = true;
     }
     else if( editMode == 1 )
     {
-      myDisplay.drawSwitchingPreset();
-
-      if( currentPreset == 0 )
-        currentPreset = MAX_NUM_PRESETS - 1;
-      else
-        currentPreset--;
-
-      softMuteDAC();
-      initUserParams();
-      uploadUserParams();
-      updateAddOn();
-      softUnmuteDAC();
-
+      ui_cmd = UI_CMD_PRESET_PREV;
       lastREval = rotaryEncoder.getRotationValue();
-      needUpdateUI = true;
     }
   }
   #endif
@@ -4596,58 +4569,76 @@ void loop()
   {
     if( irResults.value == APPLE_REMOTE_UP )
     {
-      masterVolume.val += 0.5f;
-      if( masterVolume.val > 0.f )
-        masterVolume.val = 0.f;
-      setMasterVolume();
-      needUpdateUI = true;
+      ui_cmd = UI_CMD_VOL_UP;
     }
     else if( irResults.value == APPLE_REMOTE_DOWN )
     {
-      masterVolume.val -= 0.5f;
-      if( masterVolume.val <= -80.f )
-        masterVolume.val = -80.f;
-      setMasterVolume();
-      needUpdateUI = true;
+      ui_cmd = UI_CMD_VOL_DOWN;
     }
     else if( irResults.value == APPLE_REMOTE_LEFT )
     {
-      myDisplay.drawSwitchingPreset();
-
-      if( currentPreset == 0 )
-        currentPreset = MAX_NUM_PRESETS - 1;
-      else
-        currentPreset--;
-
-      softMuteDAC();
-      initUserParams();
-      uploadUserParams();
-      updateAddOn();
-      softUnmuteDAC();
-
-      needUpdateUI = true;
+      ui_cmd = UI_CMD_PRESET_PREV;
     }
     else if( irResults.value == APPLE_REMOTE_RIGHT )
     {
-      myDisplay.drawSwitchingPreset();
-
-      currentPreset++;
-      if( currentPreset >= MAX_NUM_PRESETS )
-        currentPreset = 0;
-
-      softMuteDAC();
-      initUserParams();
-      uploadUserParams();
-      updateAddOn();
-      softUnmuteDAC();
-
-      needUpdateUI = true;
+      ui_cmd = UI_CMD_PRESET_NEXT;
     }
     //else
     //  Serial.println(irResults.value, HEX);
     irReceiver.resume();
   }
   #endif
+
+  switch (ui_cmd)
+  {
+  case UI_CMD_VOL_UP:
+    masterVolume.val += 0.5f;
+    if( masterVolume.val > 0.f )
+      masterVolume.val = 0.f;
+    setMasterVolume();
+    needUpdateUI = true;
+    break;
+  case UI_CMD_VOL_DOWN:
+    masterVolume.val -= 0.5f;
+    if( masterVolume.val <= -80.f )
+      masterVolume.val = -80.f;
+    setMasterVolume();
+    needUpdateUI = true;
+    break;
+  case UI_CMD_PRESET_PREV:
+    myDisplay.drawSwitchingPreset();
+
+    if( currentPreset == 0 )
+      currentPreset = MAX_NUM_PRESETS - 1;
+    else
+      currentPreset--;
+
+    softMuteDAC();
+    initUserParams();
+    uploadUserParams();
+    updateAddOn();
+    softUnmuteDAC();
+
+    needUpdateUI = true;
+    break;
+  case UI_CMD_PRESET_NEXT:
+    myDisplay.drawSwitchingPreset();
+
+    currentPreset++;
+    if( currentPreset >= MAX_NUM_PRESETS )
+      currentPreset = 0;
+
+    softMuteDAC();
+    initUserParams();
+    uploadUserParams();
+    updateAddOn();
+    softUnmuteDAC();
+
+    needUpdateUI = true;
+    break;
+  default:
+    break;
+  }
 
   if( needUpdateUI )
   {
